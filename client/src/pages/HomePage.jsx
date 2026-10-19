@@ -6,12 +6,22 @@ function HomePage() {
   const [products, setProducts] = useState([]);
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
+  const endPoint = "http://localhost:4001/products"
+
+  const deleteProducts = async (id) => {
+    try{
+      const result = await axios.delete(`${endPoint}/${id}`);
+      getProducts();
+    }catch(error){
+      console.log("Test Error!!!!!"+error)
+    }
+  }
 
   const getProducts = async () => {
     try {
       setIsError(false);
       setIsLoading(true);
-      const results = await axios("http://localhost:4001/products");
+      const results = await axios(endPoint);
       setProducts(results.data.data);
       setIsLoading(false);
     } catch (error) {
@@ -31,7 +41,7 @@ function HomePage() {
       <div className="product-list">
         {products.map((product) => {
           return (
-            <div className="product">
+            <div className="product" key={product.id}>
               <div className="product-preview">
                 <img
                   src="https://via.placeholder.com/250/250"
@@ -50,7 +60,7 @@ function HomePage() {
                 </div>
               </div>
 
-              <button className="delete-button">x</button>
+              <button className="delete-button" onClick={()=>{deleteProducts(product.id)}}>x</button>
             </div>
           );
         })}
