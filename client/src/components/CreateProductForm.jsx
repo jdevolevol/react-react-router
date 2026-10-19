@@ -1,4 +1,26 @@
+import axios from "axios";
+import {useState} from "react"
+import {useNavigate} from "react-router-dom"
+
+
 function CreateProductForm() {
+    const [name,setName] = useState("");
+    const [image,setImage] = useState("");
+    const [price,setPrice] = useState("");
+    const [description,setDescription] = useState("");
+    const navigate = useNavigate();
+  
+ 
+    const postProducts = async () => {
+    try {
+      const results = await axios.post(("http://localhost:4001/products"),{name,image,price,description});
+      navigate("/");
+    } catch (error) {
+      console.log("Have a ERROR!!! :"+ error)
+    }
+  };
+
+  
   return (
     <form className="product-form">
       <h1>Create Product Form</h1>
@@ -10,7 +32,8 @@ function CreateProductForm() {
             name="name"
             type="text"
             placeholder="Enter name here"
-            onChange={() => {}}
+            value = {name}
+            onChange={(e) => {setName(e.target.value);}}
           />
         </label>
       </div>
@@ -22,7 +45,8 @@ function CreateProductForm() {
             name="image"
             type="text"
             placeholder="Enter image url here"
-            onChange={() => {}}
+            value={image}
+            onChange={(e) => {setImage(e.target.value)}}
           />
         </label>
       </div>
@@ -34,7 +58,8 @@ function CreateProductForm() {
             name="price"
             type="number"
             placeholder="Enter price here"
-            onChange={() => {}}
+            value={price}
+            onChange={(e) => {setPrice(e.target.value)}}
           />
         </label>
       </div>
@@ -46,14 +71,15 @@ function CreateProductForm() {
             name="description"
             type="text"
             placeholder="Enter description here"
-            onChange={() => {}}
+            value={description}
+            onChange={(e) => {setDescription(e.target.value)}}
             rows={4}
             cols={30}
           />
         </label>
       </div>
       <div className="form-actions">
-        <button type="submit">Create</button>
+        <button type="submit" onClick={(event)=>{event.preventDefault(); postProducts();}}>Create</button>
       </div>
     </form>
   );
