@@ -44,7 +44,7 @@ function HomePage() {
             <div className="product" key={product.id}>
               <div className="product-preview">
                 <img
-                  src="https://via.placeholder.com/250/250"
+                  src={product.image}
                   alt="some product"
                   width="250"
                   height="250"
@@ -55,7 +55,7 @@ function HomePage() {
                 <h2>Product price: {product.price}</h2>
                 <p>Product description: {product.description} </p>
                 <div className="product-actions">
-                  <Link to="/ViewProductPage"><button className="view-button">View</button></Link>
+                  <Link to={`/ViewProductPage/${product.id}`}><button className="view-button">View</button></Link>
                   <Link to="EditProductPage"><button className="edit-button">Edit</button></Link>
                 </div>
               </div>
